@@ -21,6 +21,7 @@ from joblib import dump, load
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import pickle
 import argparse
 import sys
 import os
@@ -69,14 +70,28 @@ class ResourceManager:
     @staticmethod
     def save_plot(name):
         plt.savefig(os.path.join(ResourceManager.PLOTS_PATH, name) + ResourceManager.PLOT_EXT)
+        plt.clf()
 
     @staticmethod
     def save_model(name, model):
-        dump(os.path.join(ResourceManager.MODELS_PATH, name), model)
+        dump( model, os.path.join(ResourceManager.MODELS_PATH, name))
 
     @staticmethod
     def load_model(name):
         return load(os.path.join(ResourceManager.MODELS_PATH, name))
+
+    @staticmethod
+    def save_history(name, history):
+        outfile = open(os.path.join(ResourceManager.MODELS_PATH, name),'wb')
+        pickle.dump(history, outfile)
+        outfile.close()
+
+    @staticmethod
+    def load_history(name):
+        infile = open(os.path.join(ResourceManager.MODELS_PATH, name),'rb')
+        history = pickle.load(infile)
+        infile.close()
+        return history
 
 
 
@@ -169,6 +184,17 @@ def train_grid(model, parameters, X, y, k=5):
 
     return best_params
 
+def plot_error(history, error, title):
+    mae_train = np.array([[key, history[key][error + '_train']] for key in history.keys()])
+    mae_test = np.array([[key, history[key][error + '_test']] for key in history.keys()])
+
+    x_length = range(len(mae_test))
+    plt.title(title)
+    plt.plot(x_length, mae_train[:, 1].astype(np.float32), '.', label='Train Error')
+    plt.plot(x_length, mae_test[:, 1].astype(np.float32), '.', label='Test Error')
+    plt.legend(loc='lower left')
+    plt.xticks(x_length, mae_test[:, 0])
+
 
 def get_parser():
     """
@@ -180,6 +206,10 @@ def get_parser():
         return get_prepare()
     elif type == 'train.py':
         return get_train()
+    elif type == 'results.py':
+        return get_history()
+
+
 
 def get_prepare():
     """
@@ -189,7 +219,12 @@ def get_prepare():
     parser.add_argument('--data', type=str, default='imports-85.data')
     return parser
 
-
+def get_history():
+    """
+    Returns the argument parser for the history script
+    """
+    parser = argparse.ArgumentParser(description='Save the results and plot them')
+    return parser
 
 def get_train():
     """
