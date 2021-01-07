@@ -12,9 +12,9 @@ The project is divided into multiple files
 The code is made as modular as possible, this enables us to separate different tasks and execute them independently. The proper way to execute the files is in the following order
 `requirements -> prepare -> train -> results`, without parameters. Although we provide the trained models and the definitve history of those models, so you can spare the execution entirely.
 
-`pip install -r requirements.txt`
-`python prepare.py`
-`python train.py`
+`pip install -r requirements.txt` <br>
+`python prepare.py` <br>
+`python train.py` <br>
 `python results.py`
 
 ## Authors
