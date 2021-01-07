@@ -184,6 +184,23 @@ def train_grid(model, parameters, X, y, k=5):
 
     return best_params
 
+def calculate_error(history, error, error_name):
+    for model in history.keys():
+        error_test = 0
+        for y_test, y_pred in zip(history[model]['y_test'], history[model]['y_pred_test']):
+            y_test = history[model]['y_test'][y_test]
+            y_pred = history[model]['y_pred_test'][y_pred]
+            error_test += error(y_test, y_pred)
+        history[model][error_name + '_test'] = error_test / len(history[model]['y_test'])
+
+        error_train = 0
+        for y_train, y_pred in zip(history[model]['y_train'], history[model]['y_pred_train']):
+            y_train = history[model]['y_train'][y_train]
+            y_pred = history[model]['y_pred_train'][y_pred]
+            error_train += error(y_train, y_pred)
+        history[model][error_name + '_train'] = error_train / len(history[model]['y_train'])
+    return history
+
 def plot_error(history, error, title):
     mae_train = np.array([[key, history[key][error + '_train']] for key in history.keys()])
     mae_test = np.array([[key, history[key][error + '_test']] for key in history.keys()])

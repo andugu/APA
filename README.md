@@ -8,8 +8,8 @@ The project is divided into multiple files
 
 ## Execution
 The code is made as modular as possible, this enables us to separate different tasks and execute them independently. The proper way to execute the files is
-`prepare -> train -> results`, without parameters. Although we provide the trained models and the definitve history of those models, so you can spare the execution entirely. 
+`prepare -> train -> results`, without parameters. Although we provide the trained models and the definitve history of those models, so you can spare the execution entirely.
 
 ## Authors
-Josep Maria Olivé
+Josep Maria Olivé <br>
 Pol Monroig
