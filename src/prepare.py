@@ -9,9 +9,7 @@ Description: The prepare script is responsible of loading the data, applying
 import utils
 
 def main():
-    parser = utils.get_parser()
-    args = parser.parse_args()
-    data = utils.ResourceManager.load_table(args.data)
+    data = utils.ResourceManager.load_table('imports-85.data')
     data = utils.to_numerical(data)
     X, y = utils.apply_pipeline(data)
     X = utils.dimensionality_reduction(X)

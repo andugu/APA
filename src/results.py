@@ -8,12 +8,13 @@ Description: The results script, collects the results made by training
 import utils
 
 def main():
-    parser = utils.get_parser()
-    history = utils.ResourceManager.load_history('history')
+    history = utils.ResourceManager.load_history('history_definitive')
     utils.plot_error(history=history, error='mse', title='Mean Squared Error')
     utils.ResourceManager.save_plot('mse_comparison')
     utils.plot_error(history=history, error='mae', title='Mean Absolute Error')
     utils.ResourceManager.save_plot('mae_comparison')
+
+
 
 
 

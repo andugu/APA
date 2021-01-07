@@ -17,7 +17,6 @@ import numpy as np
 import utils
 
 def main():
-    parser = utils.get_parser()
     X = utils.ResourceManager.load_data('X')
     y = utils.ResourceManager.load_data('y')
     models = {'LinearRegression' : LinearRegression(), 'KNN' : KNeighborsRegressor(),
